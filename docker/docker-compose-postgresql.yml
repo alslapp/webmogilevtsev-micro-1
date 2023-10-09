@@ -1,0 +1,16 @@
+services:
+  dev-db:
+    image: postgres:13
+    ports:
+      - 45432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: micro1
+    volumes:
+      - ./.pgdbdata:/var/lib/postgresql/data/
+    networks:
+      - micro1
+
+networks:
+  micro1:
