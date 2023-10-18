@@ -1,6 +1,8 @@
 services:
-  dev-db:
+
+  db-micro1:
     image: postgres:13
+    restart: always
     ports:
       - 45432:5432
     environment:
@@ -8,9 +10,10 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: micro1
     volumes:
-      - ./.pgdbdata:/var/lib/postgresql/data/
-    networks:
-      - micro1
+      - /var/lib/postgresql/data/
 
-networks:
-  micro1:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
