@@ -2,7 +2,7 @@ import { PostAggregate } from '@lib/post/domain';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetPostQuery } from './get-post.query';
 import { PostRepository } from '@lib/post/providers';
-import { BadRequestException, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
 @QueryHandler(GetPostQuery)
 export class GetPostQueryHandler implements IQueryHandler<GetPostQuery, PostAggregate> {
@@ -16,7 +16,7 @@ export class GetPostQueryHandler implements IQueryHandler<GetPostQuery, PostAggr
 			this.logger.error(err);
 			return null as PostAggregate;
 		});
-		return PostAggregate.create(existPost);
+		return existPost;
 	}
 
 }
