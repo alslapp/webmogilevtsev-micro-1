@@ -5,8 +5,8 @@ import { PostRepository } from '@lib/post/providers';
 import { BadRequestException, Logger } from '@nestjs/common';
 
 @CommandHandler(SetPublishedPostCommand)
-export class UpdatePostcommandHandler implements ICommandHandler<SetPublishedPostCommand, PostAggregate> {
-	private readonly logger = new Logger(UpdatePostcommandHandler.name)
+export class SetPublishedPostCommandHandler implements ICommandHandler<SetPublishedPostCommand, PostAggregate> {
+	private readonly logger = new Logger(SetPublishedPostCommandHandler.name)
 	constructor(
 		private readonly postRepository: PostRepository,
 	) { }
