@@ -11,11 +11,13 @@ export class GetPostsQueryHandler implements IQueryHandler<GetPostsQuery, [[Post
 	constructor(
 		private readonly postRepository: PostRepository
 	) { }
-	async execute(query: GetPostsQuery): Promise<[[PostAggregate], number]> {
-		const posts = await this.postRepository.findAll().catch(err => {
-			this.logger.error(err);
-			return [[], 0];
-		});
+	async execute({ pagination }: GetPostsQuery): Promise<[[PostAggregate], number]> {
+		const posts = await this.postRepository
+			.findAll(pagination)
+			.catch(err => {
+				this.logger.error(err);
+				return [[], 0];
+			});
 		return posts as [[PostAggregate], number];
 	}
 
