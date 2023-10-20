@@ -5,7 +5,6 @@ import { IsUUID, IsString, IsNotEmpty, IsBoolean, validateSync } from 'class-val
 import { Exclude } from 'class-transformer';
 import { DomainError } from '@lib/errors';
 
-
 export class PostAggregate extends PostServices implements IPost {
 	@IsUUID()
 	id: string = randomStringGenerator();
@@ -46,6 +45,4 @@ export class PostAggregate extends PostServices implements IPost {
 		}
 		return _post;
 	}
-
-
 }
