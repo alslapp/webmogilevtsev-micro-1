@@ -1,4 +1,4 @@
-import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
+import { v4 as uuidv4 } from 'uuid';
 import { IPost } from './post.interface';
 import { PostServices } from './services';
 import { IsUUID, IsString, IsNotEmpty, IsBoolean, validateSync } from 'class-validator';
@@ -7,7 +7,7 @@ import { DomainError } from '@lib/errors';
 
 export class PostAggregate extends PostServices implements IPost {
 	@IsUUID()
-	id: string = randomStringGenerator();
+	id: string = uuidv4();
 
 	@IsString()
 	@IsNotEmpty()
@@ -23,7 +23,7 @@ export class PostAggregate extends PostServices implements IPost {
 
 	@IsBoolean()
 	@Exclude()
-	published = false;
+	isPublished = false;
 
 	@IsString()
 	createdAt = new Date().toISOString();
@@ -45,4 +45,5 @@ export class PostAggregate extends PostServices implements IPost {
 		}
 		return _post;
 	}
+
 }

@@ -6,10 +6,9 @@ export class CreatePostDto implements ICreatePostDto {
 	@IsNotEmpty()
 	title: string;
 
-	@IsString()
-	@IsNotEmpty()
+	@IsUUID()
 	authorId: string;
 
-	@IsUUID()
+	@IsString()
 	message: string;
 }

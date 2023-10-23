@@ -18,16 +18,16 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "lib/providers": [
+      "@lib/providers": [
         "libs/providers/src"
       ],
-      "lib/providers/*": [
+      "@lib/providers/*": [
         "libs/providers/src/*"
       ],
-      "lib/entities": [
+      "@lib/entities": [
         "libs/entities/src"
       ],
-      "lib/entities/*": [
+      "@lib/entities/*": [
         "libs/entities/src/*"
       ],
       "@lib/post": [

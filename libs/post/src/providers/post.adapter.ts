@@ -1,10 +1,20 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+	Injectable,
+	Logger,
+	NotFoundException,
+} from '@nestjs/common';
 import { PostRepository } from './post.repository';
 import { PaginationDto } from '@lib/shared/dto';
-import { IPost, PostAggregate } from '../domain';
+import {
+	IPost,
+	PostAggregate,
+} from '../domain';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PostEntity } from 'lib/entities';
-import { FindManyOptions, Repository } from 'typeorm';
+import { PostEntity } from '@lib/entities';
+import {
+	FindManyOptions,
+	Repository,
+} from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
@@ -12,39 +22,37 @@ export class PostAdapter implements PostRepository {
 	private readonly logger = new Logger(PostAdapter.name);
 
 	constructor(
-		@InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>
+		@InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>,
 	) { }
 
 	async save(post: IPost): Promise<PostAggregate> {
-		if (post?.id) {
-			const existPost = await this.findOne(post.id);
-			if (!existPost) {
-				throw new NotFoundException(`Post by ${post.id} not found`);
-			}
-			else {
-				const { id, ...toUpdate } = post;
-				await this.postRepository.update({ id }, toUpdate);
-				return this.findOne(id);
-			}
+		const existPost = await this.findOne(post.id);
+		if (existPost) {
+			const {id, ...toUpdate} = post;
+			await this.postRepository.update({id}, toUpdate);
+			return this.findOne(id);
 		}
 		const saved = await this.postRepository.save(post);
 		return PostAggregate.create(saved);
 	}
 
 	async findOne(id: string): Promise<PostAggregate> {
-		const existPost = await this.postRepository.findOneBy({ id }).catch(err => {
+		const existPost = await this.postRepository.findOneBy({id}).catch(err => {
 			this.logger.error(err);
 			return null;
 		});
+
 		if (!existPost) {
-			throw new NotFoundException(`Post by ${id} not found`);
+			// throw new NotFoundException(`Post by ${id} not found`);
+			return null;
 		}
+
 		return PostAggregate.create(existPost);
 	}
 
 	async findAll(pagination: PaginationDto): Promise<[PostAggregate[], number]> {
 
-		const { limit: take, offset: skip } = plainToInstance(PaginationDto, pagination); // получим инстанс класса dto с обработанными/провалидрованными полями
+		const {limit: take, offset: skip} = plainToInstance(PaginationDto, pagination); // получим инстанс класса dto с обработанными/провалидрованными полями
 
 		const options: FindManyOptions<PostEntity> = {
 			where: {

@@ -1,7 +1,7 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { CommandBus, CqrsModule, EventBus, QueryBus } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostEntity } from 'lib/entities';
+import { PostEntity } from '@lib/entities';
 import { POST_COMMANDS_HANDLERS } from './application-services/commands';
 import { POST_EVENTS_HANDLERS } from './application-services/events';
 import { POST_QUERIES_HANDLERS } from './application-services/queries';
