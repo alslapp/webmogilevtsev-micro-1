@@ -13,6 +13,7 @@ import {
 	GetPostsQuery, GetPostsQueryHandler,
 } from './queries';
 import { PaginationDto } from '@lib/shared/dto';
+import { PostAggregate } from '../domain';
 
 @Injectable()
 export class PostFacade {

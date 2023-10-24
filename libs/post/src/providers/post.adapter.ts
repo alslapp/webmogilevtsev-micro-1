@@ -27,8 +27,8 @@ export class PostAdapter implements PostRepository {
 	async save(post: IPost): Promise<PostAggregate> {
 		const existPost = await this.findOne(post.id);
 		if (existPost) {
-			const {id, ...toUpdate} = post;
-			await this.postRepository.update({id}, toUpdate);
+			const { id, ...toUpdate } = post;
+			await this.postRepository.update({ id }, toUpdate);
 			return this.findOne(id);
 		}
 		const saved = await this.postRepository.save(post);
@@ -36,7 +36,10 @@ export class PostAdapter implements PostRepository {
 	}
 
 	async findOne(id: string): Promise<PostAggregate> {
-		const existPost = await this.postRepository.findOneBy({id}).catch(err => {
+		const existPost = await this.postRepository.findOneBy({
+			id,
+			isPublished: true,
+		}).catch(err => {
 			this.logger.error(err);
 			return null;
 		});
@@ -50,9 +53,7 @@ export class PostAdapter implements PostRepository {
 	}
 
 	async findAll(pagination: PaginationDto): Promise<[PostAggregate[], number]> {
-
-		const {limit: take, offset: skip} = plainToInstance(PaginationDto, pagination); // получим инстанс класса dto с обработанными/провалидрованными полями
-
+		const { limit: take, offset: skip } = plainToInstance(PaginationDto, pagination); // получим инстанс класса dto с обработанными/провалидрованными полями
 		const options: FindManyOptions<PostEntity> = {
 			where: {
 				isPublished: true,
@@ -63,14 +64,11 @@ export class PostAdapter implements PostRepository {
 				createdAt: 'DESC',
 			},
 		};
-
 		const [data, count] = await this.postRepository.findAndCount(options).catch(err => {
 			this.logger.error(err);
 			return [[], 0] as [PostAggregate[], number];
 		});
-
 		return [data.map(post => PostAggregate.create(post)), count];
-
 	}
 
 	async delete(id: string): Promise<boolean> {
