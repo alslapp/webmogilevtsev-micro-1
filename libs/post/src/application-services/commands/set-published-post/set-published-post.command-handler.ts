@@ -17,11 +17,23 @@ export class SetPublishedPostCommandHandler implements ICommandHandler<SetPublis
 			return null as PostAggregate;
 		});
 
+
+		console.log({
+			id,
+			existPost,
+		})
+
+
 		if (!existPost) {
 			throw new BadRequestException(`Post by id ${id} not found!`);
 		}
 
 		const postAggregate = PostAggregate.create(existPost);
+
+		console.log({
+			postAggregate
+		});
+
 		postAggregate.setPublished();
 
 		await this.postRepository

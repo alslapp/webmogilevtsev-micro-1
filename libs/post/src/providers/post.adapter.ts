@@ -38,7 +38,7 @@ export class PostAdapter implements PostRepository {
 	async findOne(id: string): Promise<PostAggregate> {
 		const existPost = await this.postRepository.findOneBy({
 			id,
-			isPublished: true,
+			// isPublished: true,
 		}).catch(err => {
 			this.logger.error(err);
 			return null;

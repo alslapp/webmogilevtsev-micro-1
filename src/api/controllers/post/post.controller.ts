@@ -9,8 +9,10 @@ import {
 	Logger,
 	ParseUUIDPipe,
 	Query,
+	Put,
+	Patch,
 } from '@nestjs/common';
-import { CreatePostDto } from './dto';
+import { CreatePostDto, UpdatePostDto } from './dto';
 import { CurrentUser, ICurrentUser, Public } from '@lib/auth';
 import { JwtGuard } from '@lib/auth/guards';
 import { PaginationDto } from '@lib/shared/dto';
@@ -22,6 +24,7 @@ import { PostAggregate } from '@lib/post';
 @Controller('post')
 export class PostController {
 	private readonly logger = new Logger(PostController.name);
+
 	constructor(private readonly postFacade: PostFacade) { }
 
 	@Post()
@@ -53,4 +56,16 @@ export class PostController {
 		}
 	}
 
+	@Put()
+	updatePost(@CurrentUser() user: ICurrentUser, @Body() updatePost: UpdatePostDto) {
+		return this.postFacade.commands.updatePost({ ...updatePost, authorId: user.userId });
+	}
+
+	@Patch(':id')
+	setPublished(@Param('id', ParseUUIDPipe) id: string) {
+
+		console.log({ id })
+
+		return this.postFacade.commands.setPublishedPost(id);
+	}
 }
