@@ -1,7 +1,6 @@
 import {
 	Injectable,
 	Logger,
-	NotFoundException,
 } from '@nestjs/common';
 import { PostRepository } from './post.repository';
 import { PaginationDto } from '@lib/shared/dto';

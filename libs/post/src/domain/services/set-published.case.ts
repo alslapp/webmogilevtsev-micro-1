@@ -1,4 +1,4 @@
-import { IPost } from '../post.interface';
+import { IPost } from '@lib/post';
 
 export interface ISetPublished {
 	setPublished(): void;
