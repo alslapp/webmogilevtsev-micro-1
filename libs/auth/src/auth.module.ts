@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtFactory } from './configs';
 import { GUARDS } from './guards';
+import { STRATEGIES } from './strategies';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { GUARDS } from './guards';
   providers: [
     AuthService,
     ...GUARDS,
+    ...STRATEGIES,
   ],
   exports: [AuthService],
 })
