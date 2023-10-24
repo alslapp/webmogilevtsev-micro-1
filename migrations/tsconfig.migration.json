@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"outDir": "js"
+	},
+	"include": [
+		"*migration.ts"
+	]
+}
