@@ -1,4 +1,0 @@
-import { JwtGuard } from './jwt.guard';
-export const GUARDS = [JwtGuard];
-
-export * from './jwt.guard';
