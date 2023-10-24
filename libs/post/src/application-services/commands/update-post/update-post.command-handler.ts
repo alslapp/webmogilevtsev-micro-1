@@ -23,6 +23,7 @@ export class UpdatePostcommandHandler implements ICommandHandler<UpdatePostComma
 
 		Object.assign(existPost, post);
 		const postAggregate = PostAggregate.create(existPost);
+		postAggregate.plainToInstance();
 		await this.postRepository
 			.save(postAggregate)
 			.catch(err => {

@@ -11,6 +11,7 @@ import {
 	Query,
 	Put,
 	Patch,
+	Delete,
 } from '@nestjs/common';
 import { CreatePostDto, UpdatePostDto } from './dto';
 import { CurrentUser, ICurrentUser, Public } from '@lib/auth';
@@ -63,9 +64,11 @@ export class PostController {
 
 	@Patch(':id')
 	setPublished(@Param('id', ParseUUIDPipe) id: string) {
-
-		console.log({ id })
-
 		return this.postFacade.commands.setPublishedPost(id);
+	}
+
+	@Delete(':id')
+	deletePost(@Param('id', ParseUUIDPipe) id: string) {
+		return this.postFacade.commands.deletePost(id);
 	}
 }
