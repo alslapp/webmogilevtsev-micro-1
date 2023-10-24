@@ -16,14 +16,14 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-doc', app, document);
+  const swaggerPath = 'api-doc';
+  SwaggerModule.setup(swaggerPath, app, document);
 
   const globalPrefix = ''; // api
 
   app.setGlobalPrefix(globalPrefix);
   await app.listen(httpPort);
-  Logger.log(
-    `🚀 Api is running on: http://localhost:${httpPort}/${globalPrefix}`
-  );
+  Logger.log(`🚀 Api is running on: http://localhost:${httpPort}/${globalPrefix}`, 'Main');
+  Logger.log(`Swagger documentation on http://localhost:${httpPort}/${swaggerPath}`, 'Main');
 }
 bootstrap();
