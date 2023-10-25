@@ -50,4 +50,9 @@ export class PostResolver {
 		return this.postFacade.commands.setPublishedPost(id);
 	}
 
+	@Mutation(() => Boolean)
+	async deletePost(@Args('id') id: string) {
+		return this.postFacade.commands.deletePost(id);
+	}
+
 }
