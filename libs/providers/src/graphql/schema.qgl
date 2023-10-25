@@ -9,6 +9,8 @@ input CreatePostInput {
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): PostResponse!
+  setPublishedPost(id: String!): PostResponse!
+  updatePost(updatePostInput: UpdatePostInput!): PostResponse!
 }
 
 type PaginatedPosts {
@@ -47,4 +49,10 @@ type Query {
     """Пропуск строк"""
     offset: Int! = 0
   ): PaginatedPosts!
+}
+
+input UpdatePostInput {
+  id: ID!
+  message: String
+  title: String
 }

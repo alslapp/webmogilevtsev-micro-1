@@ -25,5 +25,6 @@ async function bootstrap() {
   await app.listen(httpPort);
   Logger.log(`🚀 Api is running on: http://localhost:${httpPort}/${globalPrefix}`, 'Main');
   Logger.log(`Swagger documentation on http://localhost:${httpPort}/${swaggerPath}`, 'Main');
+  Logger.log(`GQL playground on http://localhost:${httpPort}/graphql`, 'Main');
 }
 bootstrap();

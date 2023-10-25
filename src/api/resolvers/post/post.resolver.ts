@@ -5,7 +5,7 @@ import { PaginationDto, ResponseWhithPagination } from '@lib/shared';
 import { plainToInstance } from 'class-transformer';
 import { PostAggregate } from '@lib/post';
 import { PaginatedPosts } from '../responses';
-import { CreatePostInput } from '../inputs';
+import { CreatePostInput, UpdatePostInput } from '../inputs';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,6 +35,19 @@ export class PostResolver {
 			...createPostInput,
 			authorId: uuidv4(),
 		});
+	}
+
+	@Mutation(() => PostResponse)
+	async updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
+		return this.postFacade.commands.updatePost({
+			...updatePostInput,
+			authorId: uuidv4(),
+		});
+	}
+
+	@Mutation(() => PostResponse)
+	async setPublishedPost(@Args('id') id: string) {
+		return this.postFacade.commands.setPublishedPost(id);
 	}
 
 }
