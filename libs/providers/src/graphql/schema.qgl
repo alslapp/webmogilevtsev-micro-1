@@ -1,0 +1,41 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PaginatedPosts {
+  data: [PostResponse!]
+  limit: Int!
+  offset: Int!
+  total: Int!
+}
+
+type PostResponse {
+  """Идентификтор автора поста"""
+  authorId: String!
+
+  """Дата создания поста"""
+  createdAt: String!
+
+  """Идентификтор поста"""
+  id: ID!
+
+  """Текст поста"""
+  message: String!
+
+  """Заголовок поста"""
+  title: String!
+
+  """Дата обновления поста"""
+  updatedAt: String!
+}
+
+type Query {
+  post(id: String!): PostResponse!
+  posts(
+    """Количество строк"""
+    limit: Int! = 15
+
+    """Пропуск строк"""
+    offset: Int! = 0
+  ): PaginatedPosts!
+}
