@@ -2,6 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreatePostInput {
+  message: String!
+  title: String!
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): PostResponse!
+  deletePost(id: String!): Boolean!
+  setPublishedPost(id: String!): PostResponse!
+  updatePost(updatePostInput: UpdatePostInput!): PostResponse!
+}
+
+type PaginatedPosts {
+  data: [PostResponse!]
+  limit: Int!
+  offset: Int!
+  total: Int!
+}
+
 type PostResponse {
   """Идентификтор автора поста"""
   authorId: String!
@@ -24,4 +43,17 @@ type PostResponse {
 
 type Query {
   post(id: String!): PostResponse!
+  posts(
+    """Количество строк"""
+    limit: Int! = 15
+
+    """Пропуск строк"""
+    offset: Int! = 0
+  ): PaginatedPosts!
+}
+
+input UpdatePostInput {
+  id: ID!
+  message: String
+  title: String
 }
