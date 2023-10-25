@@ -6,18 +6,22 @@ import { plainToInstance } from 'class-transformer';
 import { PostAggregate } from '@lib/post';
 import { PaginatedPosts } from '../responses';
 import { CreatePostInput, UpdatePostInput } from '../inputs';
+import { GqlCurrentUser, ICurrentUser, Public } from '@lib/auth';
+import { UseGuards } from '@nestjs/common';
+import { GqlGuard } from '@lib/auth/guards';
 
-import { v4 as uuidv4 } from 'uuid';
-
+@UseGuards(GqlGuard)
 @Resolver(() => PostResponse)
 export class PostResolver {
 	constructor(private readonly postFacade: PostFacade) { }
 
+	@Public()
 	@Query(() => PostResponse, { name: 'post' })
 	async getPostById(@Args('id') id: string) {
 		return this.postFacade.queries.getOnePost(id)
 	}
 
+	@Public()
 	@Query(() => PaginatedPosts, { name: 'posts' })
 	async getPosts(@Args() paginationDto: PaginationDto): Promise<ResponseWhithPagination<PostAggregate>> {
 		const pagination = plainToInstance(PaginationDto, paginationDto);
@@ -30,18 +34,18 @@ export class PostResolver {
 	}
 
 	@Mutation(() => PostResponse)
-	async createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
+	async createPost(@GqlCurrentUser() currentUser: ICurrentUser, @Args('createPostInput') createPostInput: CreatePostInput) {
 		return this.postFacade.commands.createPost({
 			...createPostInput,
-			authorId: uuidv4(),
+			authorId: currentUser.userId,
 		});
 	}
 
 	@Mutation(() => PostResponse)
-	async updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
+	async updatePost(@GqlCurrentUser() currentUser: ICurrentUser, @Args('updatePostInput') updatePostInput: UpdatePostInput) {
 		return this.postFacade.commands.updatePost({
 			...updatePostInput,
-			authorId: uuidv4(),
+			authorId: currentUser.userId,
 		});
 	}
 
