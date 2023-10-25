@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ProvidersModule } from '@lib/providers';
 import { ApiModule } from './api';
 import { DomainsModule } from './domains/domains.module';
+import { ChannelsModule } from './channels/channels.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { DomainsModule } from './domains/domains.module';
     ProvidersModule,
     ApiModule,
     DomainsModule,
+    ChannelsModule,
   ],
   controllers: [],
   providers: [],
