@@ -3,13 +3,6 @@ import { PaginationDto } from '../dto';
 import { Type, applyDecorators } from '@nestjs/common';
 
 export class ResponseWhithPagination<T> extends PaginationDto {
-
-	@ApiProperty({ description: 'Количество строк', type: Number })
-	limit: number;
-
-	@ApiProperty({ description: 'Пропуск строк', type: Number })
-	offset: number;
-
 	@ApiProperty({ description: 'Всего записей в бд', type: Number })
 	total!: number;
 
