@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+
 import { IPost } from './post.interface';
 import { PostServices } from './services';
 import { IsUUID, IsString, IsNotEmpty, IsBoolean, validateSync } from 'class-validator';
