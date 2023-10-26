@@ -25,11 +25,11 @@ export class PostResolver {
 	@Query(() => PaginatedPosts, { name: 'posts' })
 	async getPosts(@Args() paginationDto: PaginationDto): Promise<ResponseWhithPagination<PostAggregate>> {
 		const pagination = plainToInstance(PaginationDto, paginationDto);
-		const posts = await this.postFacade.queries.getAllPosts(pagination);
+		const [data, total] = await this.postFacade.queries.getAllPosts(pagination);
 		return {
-			data: posts[0],
+			data,
+			total,
 			...pagination,
-			total: posts[1],
 		}
 	}
 
