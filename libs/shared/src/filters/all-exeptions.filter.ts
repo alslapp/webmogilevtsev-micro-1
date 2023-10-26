@@ -12,7 +12,7 @@ export class AllExeptionsFilter<T> implements ExceptionFilter {
 
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    if (['graphql'].includes(host.getType())) {
+    if (['graphql', 'rmq'].includes(host.getType())) {
       throw new HttpException(this._response(status, request, exception), status);
     }
 
