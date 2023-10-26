@@ -13,7 +13,6 @@ import {
 	GetPostsQuery, GetPostsQueryHandler,
 } from './queries';
 import { PaginationDto } from '@lib/shared/dto';
-import { PostAggregate } from '../domain';
 
 @Injectable()
 export class PostFacade {
@@ -40,39 +39,43 @@ export class PostFacade {
 	private createPost(post: CreatePostDto) {
 		return this.commandBus.execute<
 			CreatePostCommand,
-			CreatePostcommandHandler['execute']
+			Awaited<ReturnType<CreatePostcommandHandler['execute']>>
 		>(new CreatePostCommand(post));
 	}
 
 	private updatePost(post: UpdatePostDto) {
 		return this.commandBus.execute<
 			UpdatePostCommand,
-			UpdatePostcommandHandler['execute']
+			Awaited<ReturnType<UpdatePostcommandHandler['execute']>>
 		>(new UpdatePostCommand(post));
 	}
 
 	private setPublishedPost(id: string) {
 		return this.commandBus.execute<
 			SetPublishedPostCommand,
-			SetPublishedPostCommandHandler['execute']
+			Awaited<ReturnType<SetPublishedPostCommandHandler['execute']>>
 		>(new SetPublishedPostCommand(id));
 	}
 
 	private deletePost(id: string) {
 		return this.commandBus.execute<
 			DeletePostCommand,
-			DeletePostcommandHandler['execute']
+			Awaited<ReturnType<DeletePostcommandHandler['execute']>>
 		>(new DeletePostCommand(id));
 	}
 
-
-
 	private getPost(id: string) {
-		return this.queryBus.execute<GetPostQuery, GetPostQueryHandler['execute']>(new GetPostQuery(id));
+		return this.queryBus.execute<
+			GetPostQuery,
+			Awaited<ReturnType<GetPostQueryHandler['execute']>>
+		>(new GetPostQuery(id));
 	}
 
 	private getPosts(pagination: PaginationDto) {
-		return this.queryBus.execute<GetPostsQuery, GetPostsQueryHandler['execute']>(new GetPostsQuery(pagination));
+		return this.queryBus.execute<
+			GetPostsQuery,
+			Awaited<ReturnType<GetPostsQueryHandler['execute']>>
+		>(new GetPostsQuery(pagination));
 	}
 
 }

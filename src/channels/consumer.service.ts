@@ -1,6 +1,6 @@
+import { CreatePostContract } from '@amqp/amqp-contracts';
 import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
 import { PostFacade } from '@lib/post/application-services';
-import { CreatePostDto } from '@lib/post/application-services/commands/dto';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -11,20 +11,35 @@ export class ConsumerService {
 	constructor(private readonly postFacade: PostFacade) { }
 
 	@RabbitRPC({
-		exchange: 'post',
-		routingKey: 'create-post',
-		queue: 'create-post',
+		exchange: CreatePostContract.queue.exchange.name,
+		routingKey: CreatePostContract.queue.routingKey,
+		queue: CreatePostContract.queue.queue,
 	})
-	private async createPost(post: CreatePostDto) {
+	private async createPost(request: CreatePostContract.request): Promise<CreatePostContract.response> {
+		const { payload: post, ...requestMessage } = request;
 		try {
-			return await this.postFacade.commands.createPost({
+			const createdPost = await this.postFacade.commands.createPost({
 				...post,
-				authorId: uuidv4(),
 			});
+			return {
+				...requestMessage,
+				payload: createdPost
+			}
 		}
 		catch (e) {
 			this.logger.error(e);
-			return null;
+			return {
+				...requestMessage,
+				payload: null,
+				error: this.errorHandler(e),
+			};
+		}
+	}
+
+	private errorHandler(error: any) {
+		return {
+			code: error?.name || 'error',
+			message: error?.message || JSON.stringify(error)
 		}
 	}
 }
